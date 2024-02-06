@@ -1,0 +1,59 @@
+version: '3.1'
+
+services:
+  mongo-file-db:
+    image: mongo
+    container_name: mongo-file
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: 1q2w3e4r5t
+      MONGO_DB_DEV_USERNAME: admin
+      MONGO_DB_DEV_PASSWORD: 1q2w3e4r5t
+      MONGO_DB_DATABASE: free-music
+      MONGO_DB_COLLECTION: file
+    ports:
+      - "2717:27017"
+    volumes:
+      - ../mongodb-data:/data/db
+
+  file-manager:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: file-manager
+    ports:
+      - "8001:8080"
+    labels:
+      - "prometheus.job=file-manager"
+    depends_on:
+      - mongo-file-db
+    volumes:
+      - ./configs:/configs
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=1q2w3e4r5t
+    depends_on:
+      - prometheus
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+
+  node-exporter:
+    image: prom/node-exporter
+    ports:
+      - "9100:9100"
+
+volumes:
+  mongodb-data:
+  prometheus_data:

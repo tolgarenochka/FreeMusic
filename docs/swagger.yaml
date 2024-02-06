@@ -1,0 +1,280 @@
+definitions:
+  models.GetAllMusicFilesInfoResponse:
+    properties:
+      info_about_music_file:
+        items:
+          $ref: '#/definitions/models.InfoAboutMusicFile'
+        type: array
+    type: object
+  models.InfoAboutMusicFile:
+    properties:
+      artist:
+        type: string
+      duration:
+        type: string
+      fileName:
+        type: string
+      tag:
+        type: string
+    type: object
+  models.UploadFileResponse:
+    properties:
+      id_hex:
+        type: string
+    type: object
+  v1.errorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: API Server for FreeMusic Application
+  title: FreeMusic
+  version: "1.0"
+paths:
+  /v1/file/download:
+    post:
+      consumes:
+      - multipart/form-data
+      description: download file
+      parameters:
+      - description: Auth header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: file name
+        in: formData
+        name: filename
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+      tags:
+      - FileStorage
+  /v1/file/download-audio:
+    post:
+      consumes:
+      - multipart/form-data
+      description: stream audio file
+      parameters:
+      - description: Auth header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: file name
+        in: formData
+        name: filename
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+      tags:
+      - FileStorage
+  /v1/file/download-audio-image:
+    post:
+      consumes:
+      - multipart/form-data
+      description: download audio image
+      parameters:
+      - description: Auth header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: file name
+        in: formData
+        name: filename
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+      tags:
+      - FileStorage
+  /v1/file/drop:
+    delete:
+      consumes:
+      - multipart/form-data
+      description: drop file
+      parameters:
+      - description: Auth header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: file name
+        in: formData
+        name: filename
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+      tags:
+      - FileStorage
+  /v1/file/get-all-music:
+    get:
+      description: get all music files info (name, artist, duration, tag)
+      parameters:
+      - description: Auth header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+      tags:
+      - FileStorage
+  /v1/file/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: upload file
+      parameters:
+      - description: Auth header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: file name
+        in: formData
+        name: filename
+        required: true
+        type: string
+      - description: File to upload
+        in: formData
+        name: body
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+      tags:
+      - FileStorage
+swagger: "2.0"
